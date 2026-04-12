@@ -6,15 +6,13 @@ export default defineConfig({
   server: {
     port: 5173,
     proxy: {
-      '/api-users': {
+      '/users': {
         target: 'http://rodo.tplinkdns.com:65000',
         changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api-users/, ''),
       },
-      '/api-reports': {
+      '/reports': {
         target: 'http://rodo.tplinkdns.com:65001',
         changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api-reports/, ''),
       },
     },
   },
