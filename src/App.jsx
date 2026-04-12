@@ -1,21 +1,37 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import BottomNav  from './components/BottomNav'
-import FeedPage   from './pages/FeedPage'
-import PerfilPage from './pages/PerfilPage'
-import { ExplorarPage, MapaPage, AlertasPage, NuevoReportePage } from './pages/Placeholders'
+import BottomNav        from './components/BottomNav'
+import ProtectedRoute   from './components/ProtectedRoute'
+import FeedPage         from './pages/FeedPage'
+import PerfilPage       from './pages/PerfilPage'
+import NuevoReportePage from './pages/NuevoReportePage'
+import LoginPage        from './pages/LoginPage'
+import { ExplorarPage, MapaPage, AlertasPage } from './pages/Placeholders'
+import { useUser } from './context/UserContext'
+
+function Layout({ children }) {
+  const { usuario } = useUser()
+  return (
+    <>
+      {children}
+      {usuario && <BottomNav />}
+    </>
+  )
+}
 
 export default function App() {
   return (
     <BrowserRouter>
-      <Routes>
-        <Route path="/"              element={<FeedPage />}         />
-        <Route path="/explorar"      element={<ExplorarPage />}     />
-        <Route path="/mapa"          element={<MapaPage />}         />
-        <Route path="/alertas"       element={<AlertasPage />}      />
-        <Route path="/perfil"        element={<PerfilPage />}       />
-        <Route path="/nuevo-reporte" element={<NuevoReportePage />} />
-      </Routes>
-      <BottomNav />
+      <Layout>
+        <Routes>
+          <Route path="/login"         element={<LoginPage />} />
+          <Route path="/"              element={<ProtectedRoute><FeedPage /></ProtectedRoute>} />
+          <Route path="/explorar"      element={<ProtectedRoute><ExplorarPage /></ProtectedRoute>} />
+          <Route path="/mapa"          element={<ProtectedRoute><MapaPage /></ProtectedRoute>} />
+          <Route path="/alertas"       element={<ProtectedRoute><AlertasPage /></ProtectedRoute>} />
+          <Route path="/perfil"        element={<ProtectedRoute><PerfilPage /></ProtectedRoute>} />
+          <Route path="/nuevo-reporte" element={<ProtectedRoute><NuevoReportePage /></ProtectedRoute>} />
+        </Routes>
+      </Layout>
     </BrowserRouter>
   )
 }

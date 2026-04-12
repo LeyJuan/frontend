@@ -6,8 +6,8 @@ import axios from 'axios'
  *   reportsClient → Puerto 65001  (Reportes  - MongoDB)
  */
 
-const USERS_URL   = import.meta.env.VITE_USERS_API_URL   ?? 'http://rodo.tplinkdns.com:65000'
-const REPORTS_URL = import.meta.env.VITE_REPORTS_API_URL ?? 'http://rodo.tplinkdns.com:65001'
+const USERS_URL   = ''   // el proxy de Vite redirige /users → puerto 65000
+const REPORTS_URL = ''   // el proxy de Vite redirige /reports → puerto 65001
 
 function makeClient(baseURL) {
   const instance = axios.create({

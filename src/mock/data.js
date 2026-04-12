@@ -51,9 +51,9 @@ export function resolveEstado(reporte) {
  *   Rojo    → No atendido
  */
 export const ESTADO_CONFIG = {
-  atendido:    { label: 'Atendido',    bg: 'bg-green-100',  text: 'text-green-700',  bar: 'bg-green-500',  dot: '#22c55e' },
-  en_proceso:  { label: 'En proceso',  bg: 'bg-orange-100', text: 'text-orange-700', bar: 'bg-orange-500', dot: '#f97316' },
-  no_atendido: { label: 'No atendido', bg: 'bg-red-100',    text: 'text-red-700',    bar: 'bg-red-500',    dot: '#ef4444' },
+  atendido:    { label: 'Atendido',    bg: 'bg-green-500',  text: 'text-[#ffffff]',  bar: 'bg-green-500',  dot: '#22c55e' },
+  en_proceso:  { label: 'En proceso',  bg: 'bg-[#F87216]', text: 'text-[#ffffff]', bar: 'bg-[#F87216]', dot: '#F87216' },
+  no_atendido: { label: 'No atendido', bg: 'bg-red-500',    text: 'text-[#ffffff]',    bar: 'bg-red-500',    dot: '#ef4444' },
 }
 
 /* ─── Categorías del carrusel ───────────────────────────────────── */

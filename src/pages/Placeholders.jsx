@@ -39,17 +39,3 @@ export function AlertasPage() {
     </div>
   )
 }
-
-export function NuevoReportePage() {
-  return (
-    <div className="flex flex-col min-h-screen bg-white pb-28">
-      <header className="bg-red-600 px-4 pt-4 pb-4">
-        <h1 className="text-[18px] font-black text-white">Nuevo reporte</h1>
-      </header>
-      <div className="flex flex-col items-center justify-center flex-1 text-gray-400 gap-3">
-        <p className="text-5xl">📝</p>
-        <p className="text-lg font-bold text-gray-600">Lo está construyendo otro equipo</p>
-      </div>
-    </div>
-  )
-}
