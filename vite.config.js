@@ -11,11 +11,11 @@ export default defineConfig({
     proxy: {
       '/users': {
         //target: 'http://rodo.tplinkdns.com:65000',
-        target: `${process.env.DOMAIN}:${process.env.U_PORT}`,
+        target: `${process.env.VITE_DOMAIN}:${process.env.VITE_U_PORT}`,
         changeOrigin: true,
       },
       '/reports': {
-        target: `${process.env.DOMAIN}:${process.env.R_PORT}`,
+        target: `${process.env.VITE_DOMAIN}:${process.env.VITE_R_PORT}`,
         //target: 'http://rodo.tplinkdns.com:65001',
         changeOrigin: true,
       },

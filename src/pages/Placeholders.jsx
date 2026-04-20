@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet'
 import L from 'leaflet'
 import { getReportes } from '../api/reportes'
-import { TIPO_REPORTE, visibilidadToEstado, ESTADO_CONFIG } from '../mock/data'
+import { TIPO_REPORTE, resolveEstado, ESTADO_CONFIG } from '../mock/data'
 import 'leaflet/dist/leaflet.css'
 
 // Fix para los íconos de Leaflet con Vite
@@ -18,9 +18,9 @@ const CENTRO_TUXTLA = [16.7516, -93.1152]
 // Crea un ícono de color según el estado del reporte
 function crearIcono(estado) {
   const colores = {
-    atendido:    '#22c55e',
+    resuelto:    '#22c55e',
     en_proceso:  '#f97316',
-    no_atendido: '#ef4444',
+    no_resuelto: '#ef4444',
   }
   const color = colores[estado] ?? '#ef4444'
   const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="28" height="36" viewBox="0 0 28 36">
@@ -104,7 +104,7 @@ export function MapaPage() {
             const lng = r.longitud ?? r.lng ?? r.lon
             if (!lat || !lng) return null
             const tipo  = TIPO_REPORTE[r.tipo_reporte] ?? TIPO_REPORTE[7]
-            const estado = visibilidadToEstado(r.visibilidad)
+            const estado = resolveEstado(r)
             const cfg   = ESTADO_CONFIG[estado]
             return (
               <Marker

@@ -7,16 +7,16 @@ import { useNavigate }  from 'react-router-dom'
 
 const TABS = [
   { id: 'todos',       label: 'Todos'       },
-  { id: 'no_atendido', label: 'No atendido' },
+  { id: 'no_resuelto', label: 'No atendido' },
   { id: 'en_proceso',  label: 'En proceso'  },
-  { id: 'atendido',    label: 'Atendido'    },
+  { id: 'resuelto',    label: 'Atendido'    },
 ]
 
 const TAB_ACTIVE = {
   todos:       'bg-white text-red-600 border-white',
-  no_atendido: 'bg-red-700 text-white border-red-700',
+  no_resuelto: 'bg-red-700 text-white border-red-700',
   en_proceso:  'bg-orange-500 text-white border-orange-500',
-  atendido:    'bg-green-500 text-white border-green-500',
+  resuelto:    'bg-green-500 text-white border-green-500',
 }
 
 export default function FeedPage() {

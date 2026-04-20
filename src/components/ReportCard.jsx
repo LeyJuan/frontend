@@ -1,5 +1,7 @@
 import { MessageCircle, Share2, MapPin, ThumbsUp } from 'lucide-react'
 import { ESTADO_CONFIG, INSTITUCIONES } from '../mock/data'
+import { DOMAIN, R_PORT } from '../../globalVars'
+
 
 function timeAgo(iso) {
   const diff = (Date.now() - new Date(iso)) / 1000
@@ -69,7 +71,7 @@ export default function ReportCard({ reporte }) {
 <div className="w-full h-40 bg-gray-50 flex items-center justify-center text-5xl relative overflow-hidden">
   {reporte.image_url ? (
     <img
-      src={`http://rodo.tplinkdns.com:65001${reporte.image_url}`}
+      src={`${DOMAIN}:${R_PORT}${reporte.image_url}`}
       alt={tipo.label}
       className="w-full h-full object-cover"
       onError={(e) => {

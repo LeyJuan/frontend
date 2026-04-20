@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { Settings, ChevronRight } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
 import { getReportesPorUsuario } from '../api/reportes'
-import { TIPO_REPORTE, ESTADO_CONFIG, visibilidadToEstado } from '../mock/data'
+import { TIPO_REPORTE, ESTADO_CONFIG, resolveEstado } from '../mock/data'
 import { useUser } from '../context/UserContext'
 
 export default function PerfilPage() {
@@ -68,7 +68,7 @@ export default function PerfilPage() {
         <div className="border-t border-gray-100 mt-4 pt-4 grid grid-cols-3 gap-3">
           {[
             { n: usuario?.numero_reportes ?? 0, l: 'Reportes',    c: 'text-red-600'    },
-            { n: reportes.filter(r => visibilidadToEstado(r.visibilidad) === 'atendido').length, l: 'Atendidos', c: 'text-green-600' },
+            { n: reportes.filter(r => resolveEstado(r) === 'atendido').length, l: 'Atendidos', c: 'text-green-600' },
             { n: Math.round(usuario?.calificacion ?? 0), l: 'Calificación', c: 'text-orange-500' },
           ].map(({ n, l, c }) => (
             <div key={l} className="text-center bg-gray-50 rounded-xl py-3">
@@ -90,7 +90,7 @@ export default function PerfilPage() {
         )}
         {reportes.map((r) => {
           const tipo  = TIPO_REPORTE[r.tipo_reporte] ?? TIPO_REPORTE[7]
-          const estado = ESTADO_CONFIG[visibilidadToEstado(r.visibilidad)]
+          const estado = ESTADO_CONFIG[resolveEstado(r)]
           return (
             <div key={r.id_reporte} className="bg-white rounded-2xl border border-gray-100 shadow-sm p-4 flex items-center gap-3">
               <div className="w-11 h-11 rounded-xl bg-gray-50 flex items-center justify-center text-2xl flex-shrink-0">
