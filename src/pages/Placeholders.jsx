@@ -86,7 +86,7 @@ export function MapaPage() {
         ))}
       </div>
 
-      <div className="relative" style={{ height: 'calc(100vh - 160px)', width: '100%' }}>
+      <div className="relative" style={{ height: 'calc(100vh - 190px)', width: '100%' }}>
         <MapContainer
           center={CENTRO_TUXTLA}
           zoom={13}
@@ -100,14 +100,16 @@ export function MapaPage() {
 
           {reportes.map((r) => {
             // Solo muestra reportes que tengan coordenadas
-            if (!r.latitud || !r.longitud) return null
+            const lat = r.latitud ?? r.lat
+            const lng = r.longitud ?? r.lng ?? r.lon
+            if (!lat || !lng) return null
             const tipo  = TIPO_REPORTE[r.tipo_reporte] ?? TIPO_REPORTE[7]
             const estado = visibilidadToEstado(r.visibilidad)
             const cfg   = ESTADO_CONFIG[estado]
             return (
               <Marker
                 key={r.id_reporte}
-                position={[r.latitud, r.longitud]}
+                position={[lat, lng]}
                 icon={crearIcono(estado)}
               >
                 <Popup>

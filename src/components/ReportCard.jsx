@@ -66,13 +66,29 @@ export default function ReportCard({ reporte }) {
       </div>
 
       {/* ── Imagen / placeholder ── */}
-      <div className="w-full h-40 bg-gray-50 flex items-center justify-center text-5xl relative">
-        <span>{tipo.emoji}</span>
-        <div className="absolute bottom-0 left-0 right-0 h-12 bg-gradient-to-t from-white to-transparent" />
-        <span className="absolute top-2.5 left-3 text-[11px] font-semibold bg-white/80 backdrop-blur-sm px-2.5 py-1 rounded-full shadow-sm border border-white/50">
-          {tipo.emoji} {tipo.label}
-        </span>
-      </div>
+<div className="w-full h-40 bg-gray-50 flex items-center justify-center text-5xl relative overflow-hidden">
+  {reporte.image_url ? (
+    <img
+      src={`http://rodo.tplinkdns.com:65001${reporte.image_url}`}
+      alt={tipo.label}
+      className="w-full h-full object-cover"
+      onError={(e) => {
+        e.target.style.display = 'none'
+        e.target.nextSibling.style.display = 'flex'
+      }}
+    />
+  ) : null}
+  <span
+    style={{ display: reporte.image_url ? 'none' : 'flex' }}
+    className="items-center justify-center w-full h-full"
+  >
+    {tipo.emoji}
+  </span>
+  <div className="absolute bottom-0 left-0 right-0 h-12 bg-gradient-to-t from-white to-transparent" />
+  <span className="absolute top-2.5 left-3 text-[11px] font-semibold bg-white/80 backdrop-blur-sm px-2.5 py-1 rounded-full shadow-sm border border-white/50">
+    {tipo.emoji} {tipo.label}
+  </span>
+</div>
 
       {/* ── Dirección ── */}
       <div className="flex items-start gap-2 px-4 pt-3 pb-1">

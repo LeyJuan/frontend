@@ -30,8 +30,20 @@ export const getReportesPorUsuario = (userId) =>
   reportsClient.get(`/reports/user/${userId}`).then((r) => r.data)
 
 /** POST /reports/ — Crear nuevo reporte */
-export const crearReporte = (datos) =>
-  reportsClient.post('/reports/', datos).then((r) => r.data)
+export const crearReporte = (datos) => {
+  const formData = new FormData()
+  formData.append('id_usuario', datos.id_usuario)
+  formData.append('tipo_reporte', datos.tipo_reporte)
+  formData.append('descripcion', datos.descripcion)
+  if (datos.ubicacion) formData.append('ubicacion', datos.ubicacion)
+  if (datos.lat != null) formData.append('lat', datos.lat)
+  if (datos.lng != null) formData.append('lng', datos.lng)
+  if (datos.file) formData.append('file', datos.file)  // ← debe ser 'file'
+
+  return reportsClient.post('/reports/', formData, {
+    headers: { 'Content-Type': 'multipart/form-data' },
+  }).then((r) => r.data)
+}
 
 /** PUT /reports/{report_id}/visibility — Actualizar visibilidad */
 export const actualizarVisibilidad = (reportId, visibilidad) =>
