@@ -1,10 +1,10 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { crearUsuario } from '../api/usuarios'
+import { register } from '../api/auth'
 
 const initialForm = {
   nombre: '', apellido: '', email: '',
-  fecha_nacimiento: '', url_foto_perfil: '', biografia: '',
+  fecha_nacimiento: '', contraseña: '', url_foto_perfil: '', biografia: '',
 }
 
 export default function CrearUsuarioPage() {
@@ -19,21 +19,63 @@ export default function CrearUsuarioPage() {
   })
 
   const handleSubmit = async () => {
+    // Validación
+    if (!form.nombre.trim() || !form.apellido.trim() || !form.email.trim() || !form.fecha_nacimiento) {
+      setStatus({ type: 'error', message: 'Completa todos los campos obligatorios.' })
+      return
+    }
+
+    // Validar email
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    if (!emailRegex.test(form.email)) {
+      setStatus({ type: 'error', message: 'Email inválido.' })
+      return
+    }
+
     setLoading(true)
     setStatus(null)
+    
     try {
-      await crearUsuario({
-        ...form,
+      const userData = {
+        nombre: form.nombre.trim(),
+        apellido: form.apellido.trim(),
+        email: form.email.trim(),
         fecha_nacimiento: new Date(form.fecha_nacimiento + 'T00:00:00').toISOString(),
-        url_foto_perfil: form.url_foto_perfil || null,
-        biografia: form.biografia || null,
-      })
+        url_foto_perfil: form.url_foto_perfil.trim() || null,
+        biografia: form.biografia.trim() || null,
+      }
+      
+      // Agregar contraseña solo si se proporciona
+      if (form.contraseña.trim()) {
+        userData.contraseña = form.contraseña
+      }
+
+      await register(userData)
       setStatus({ type: 'success', message: 'Usuario creado correctamente.' })
       setForm(initialForm)
+      
+      // Redirigir a login después de 2 segundos
+      setTimeout(() => {
+        navigate('/login')
+      }, 2000)
     } catch (err) {
-      console.log('Error detalle:', err.response?.data)  // agregar esta línea
-      const msg = err.response?.data?.detail?.[0]?.msg ?? 'Error al crear usuario.'
-      setStatus({ type: 'error', message: msg })
+      const status = err.response?.status
+      const data = err.response?.data
+      
+      if (status === 409) {
+        setStatus({ type: 'error', message: 'Este email ya está registrado.' })
+      } else if (status === 400) {
+        const detail = data?.detail
+        if (Array.isArray(detail)) {
+          const message = detail.map(d => d.msg).join(', ')
+          setStatus({ type: 'error', message })
+        } else {
+          setStatus({ type: 'error', message: detail || 'Hay campos inválidos.' })
+        }
+      } else {
+        setStatus({ type: 'error', message: data?.detail || 'Error al crear usuario.' })
+      }
+      console.error('Error al crear usuario:', err)
     } finally {
       setLoading(false)
     }
@@ -52,12 +94,17 @@ export default function CrearUsuarioPage() {
           { label: 'Apellido *',   key: 'apellido',  type: 'text'     },
           { label: 'Email *',      key: 'email',     type: 'email'    },
           { label: 'Nacimiento *', key: 'fecha_nacimiento', type: 'date' },
+          { label: 'Contraseña',   key: 'contraseña', type: 'password' },
           { label: 'Foto (URL)',   key: 'url_foto_perfil',  type: 'url' },
         ].map(({ label, key, type }) => (
           <div key={key} className="flex flex-col gap-1">
             <label className="text-xs font-bold text-gray-500 uppercase tracking-wider">{label}</label>
-            <input type={type} {...field(key)}
-              className="border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-red-400" />
+            <input 
+              type={type}
+              placeholder={key === 'contraseña' ? '(Opcional - se usa passwd123 si no especificas)' : ''}
+              {...field(key)}
+              className="border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-red-400"
+            />
           </div>
         ))}
 
@@ -67,11 +114,17 @@ export default function CrearUsuarioPage() {
             className="border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-red-400 resize-none" />
         </div>
 
+        <div className="bg-blue-50 border border-blue-200 rounded-xl p-3 text-xs text-blue-700">
+          💡 <strong>Nota:</strong> Si no especificas contraseña, se usará automáticamente <code className="bg-blue-100 px-1 rounded">passwd123</code>
+        </div>
+
         {status && (
-          <div className={`rounded-xl p-4 text-sm font-medium ${
-            status.type === 'success' ? 'bg-green-50 text-green-700' : 'bg-red-50 text-red-700'
+          <div className={`rounded-xl p-4 text-sm font-medium border ${
+            status.type === 'success' 
+              ? 'bg-green-50 text-green-700 border-green-200' 
+              : 'bg-red-50 text-red-700 border-red-200'
           }`}>
-            {status.message}
+            {status.type === 'success' ? '✓' : '⚠️'} {status.message}
           </div>
         )}
 

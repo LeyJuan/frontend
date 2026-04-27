@@ -1,0 +1,290 @@
+{
+  "endpoints": {
+    "usuarios": {
+      "crear_usuario": {
+        "metodo": "POST",
+        "url": "http://api/users/",
+        "solicitud": {
+          "Content-Type": "application/json",
+          "body": {
+            "nombre": "Juan",
+            "apellido": "Pérez",
+            "email": "juan.perez@example.com",
+            "fecha_nacimiento": "1990-05-15T00:00:00",
+            "url_foto_perfil": "https://example.com/photos/juan.jpg",
+            "biografia": "Soy un usuario activo de VoxPopuli"
+          }
+        },
+        "respuesta_exitosa": {
+          "codigo": 201,
+          "body": {
+            "user_id": 1,
+            "nombre": "Juan",
+            "apellido": "Pérez",
+            "email": "juan.perez@example.com",
+            "fecha_nacimiento": "1990-05-15T00:00:00",
+            "fecha_creacion": "2024-01-15T10:30:00",
+            "calificacion": 50.0,
+            "numero_reportes": 0,
+            "url_foto_perfil": "https://example.com/photos/juan.jpg",
+            "biografia": "Soy un usuario activo de VoxPopuli"
+          }
+        }
+      },
+      "obtener_usuario_por_id": {
+        "metodo": "GET",
+        "url": "http://api/users/1",
+        "respuesta": {
+          "codigo": 200,
+          "body": {
+            "user_id": 1,
+            "nombre": "Juan",
+            "apellido": "Pérez",
+            "email": "juan.perez@example.com",
+            "fecha_nacimiento": "1990-05-15T00:00:00",
+            "fecha_creacion": "2024-01-15T10:30:00",
+            "calificacion": 50.0,
+            "numero_reportes": 0,
+            "url_foto_perfil": "https://example.com/photos/juan.jpg",
+            "biografia": "Soy un usuario activo de VoxPopuli"
+          }
+        }
+      },
+      "obtener_usuario_por_email": {
+        "metodo": "GET",
+        "url": "http://api/users/email/juan.perez@example.com",
+        "respuesta": {
+          "codigo": 200,
+          "body": {
+            "user_id": 1,
+            "nombre": "Juan",
+            "apellido": "Pérez",
+            "email": "juan.perez@example.com",
+            "fecha_nacimiento": "1990-05-15T00:00:00",
+            "fecha_creacion": "2024-01-15T10:30:00",
+            "calificacion": 50.0,
+            "numero_reportes": 0,
+            "url_foto_perfil": "https://example.com/photos/juan.jpg",
+            "biografia": "Soy un usuario activo de VoxPopuli"
+          }
+        }
+      },
+      "listar_todos_usuarios": {
+        "metodo": "GET",
+        "url": "http://api/users/",
+        "respuesta": {
+          "codigo": 200,
+          "body": [
+            {
+              "user_id": 1,
+              "nombre": "Juan",
+              "apellido": "Pérez",
+              "email": "juan.perez@example.com",
+              "fecha_nacimiento": "1990-05-15T00:00:00",
+              "fecha_creacion": "2024-01-15T10:30:00",
+              "calificacion": 50.0,
+              "numero_reportes": 0,
+              "url_foto_perfil": "https://example.com/photos/juan.jpg",
+              "biografia": "Soy un usuario activo de VoxPopuli"
+            }
+          ]
+        }
+      },
+      "actualizar_usuario": {
+        "metodo": "PUT",
+        "url": "http://api/users/1",
+        "solicitud": {
+          "Content-Type": "application/json",
+          "body": {
+            "nombre": "Juan Carlos",
+            "apellido": "Pérez García",
+            "url_foto_perfil": "https://example.com/photos/juan-new.jpg",
+            "biografia": "Actualizando mi perfil"
+          }
+        },
+        "respuesta_exitosa": {
+          "codigo": 200,
+          "body": {
+            "user_id": 1,
+            "nombre": "Juan Carlos",
+            "apellido": "Pérez García",
+            "email": "juan.perez@example.com",
+            "fecha_nacimiento": "1990-05-15T00:00:00",
+            "fecha_creacion": "2024-01-15T10:30:00",
+            "calificacion": 50.0,
+            "numero_reportes": 0,
+            "url_foto_perfil": "https://example.com/photos/juan-new.jpg",
+            "biografia": "Actualizando mi perfil"
+          }
+        }
+      },
+      "eliminar_usuario": {
+        "metodo": "DELETE",
+        "url": "http://api/users/1",
+        "respuesta_exitosa": {
+          "codigo": 204,
+          "body": null
+        }
+      }
+    },
+    "reportes": {
+      "crear_reporte": {
+        "metodo": "POST",
+        "url": "http://localhost:8001/reports/",
+        "solicitud": {
+          "Content-Type": "application/json",
+          "body": {
+            "id_usuario": 1,
+            "tipo_reporte": 1,
+            "descripcion": "Se encontró un bache en la calle principal que pone en riesgo el tráfico",
+            "ubicacion": "Calle Principal, entre Av. Central y Av. Norte, Cuadra 5"
+          }
+        },
+        "respuesta_exitosa": {
+          "codigo": 201,
+          "body": {
+            "id_reporte": "550e8400-e29b-41d4-a716-446655440000",
+            "id_usuario": 1,
+            "tipo_reporte": 1,
+            "descripcion": "Se encontró un bache en la calle principal que pone en riesgo el tráfico",
+            "ubicacion": "Calle Principal, entre Av. Central y Av. Norte, Cuadra 5",
+            "visibilidad": 50.0,
+            "fecha_creacion": "2024-01-15T10:35:00"
+          }
+        }
+      },
+      "obtener_reporte_por_id": {
+        "metodo": "GET",
+        "url": "http://localhost:8001/reports/550e8400-e29b-41d4-a716-446655440000",
+        "respuesta": {
+          "codigo": 200,
+          "body": {
+            "id_reporte": "550e8400-e29b-41d4-a716-446655440000",
+            "id_usuario": 1,
+            "tipo_reporte": 1,
+            "descripcion": "Se encontró un bache en la calle principal que pone en riesgo el tráfico",
+            "ubicacion": "Calle Principal, entre Av. Central y Av. Norte, Cuadra 5",
+            "visibilidad": 50.0,
+            "fecha_creacion": "2024-01-15T10:35:00"
+          }
+        }
+      },
+      "obtener_reportes_de_usuario": {
+        "metodo": "GET",
+        "url": "http://localhost:8001/reports/user/1",
+        "respuesta": {
+          "codigo": 200,
+          "body": [
+            {
+              "id_reporte": "550e8400-e29b-41d4-a716-446655440000",
+              "id_usuario": 1,
+              "tipo_reporte": 1,
+              "descripcion": "Se encontró un bache en la calle principal que pone en riesgo el tráfico",
+              "ubicacion": "Calle Principal, entre Av. Central y Av. Norte, Cuadra 5",
+              "visibilidad": 50.0,
+              "fecha_creacion": "2024-01-15T10:35:00"
+            }
+          ]
+        }
+      },
+      "listar_todos_reportes": {
+        "metodo": "GET",
+        "url": "http://localhost:8001/reports/",
+        "respuesta": {
+          "codigo": 200,
+          "body": [
+            {
+              "id_reporte": "550e8400-e29b-41d4-a716-446655440000",
+              "id_usuario": 1,
+              "tipo_reporte": 1,
+              "descripcion": "Se encontró un bache en la calle principal que pone en riesgo el tráfico",
+              "ubicacion": "Calle Principal, entre Av. Central y Av. Norte, Cuadra 5",
+              "visibilidad": 50.0,
+              "fecha_creacion": "2024-01-15T10:35:00"
+            }
+          ]
+        }
+      },
+      "obtener_reportes_shadowbaneados": {
+        "metodo": "GET",
+        "url": "http://localhost:8001/reports/shadowbanned/list?threshold=20",
+        "respuesta": {
+          "codigo": 200,
+          "body": [
+            {
+              "id_reporte": "550e8400-e29b-41d4-a716-446655440001",
+              "id_usuario": 2,
+              "tipo_reporte": 2,
+              "descripcion": "Reporte spam con baja visibilidad",
+              "ubicacion": "Ubicación desconocida",
+              "visibilidad": 10.0,
+              "fecha_creacion": "2024-01-14T08:00:00"
+            }
+          ]
+        }
+      },
+      "actualizar_visibilidad": {
+        "metodo": "PUT",
+        "url": "http://localhost:8001/reports/550e8400-e29b-41d4-a716-446655440000/visibility",
+        "solicitud": {
+          "Content-Type": "application/json",
+          "body": {
+            "new_visibility": 85.0,
+            "penalize_author": false
+          }
+        },
+        "respuesta_exitosa": {
+          "codigo": 200,
+          "body": {
+            "message": "Visibilidad actualizada exitosamente",
+            "report_id": "550e8400-e29b-41d4-a716-446655440000",
+            "new_visibility": 85.0
+          }
+        }
+      },
+      "actualizar_visibilidad_con_penalizacion": {
+        "metodo": "PUT",
+        "url": "http://localhost:8001/reports/550e8400-e29b-41d4-a716-446655440001/visibility",
+        "solicitud": {
+          "Content-Type": "application/json",
+          "body": {
+            "new_visibility": 15.0,
+            "penalize_author": true
+          }
+        },
+        "descripcion": "Reduce la visibilidad a shadowban y penaliza la calificación del autor si se establece penalize_author=true",
+        "respuesta_exitosa": {
+          "codigo": 200,
+          "body": {
+            "message": "Visibilidad actualizada exitosamente",
+            "report_id": "550e8400-e29b-41d4-a716-446655440001",
+            "new_visibility": 15.0
+          }
+        }
+      },
+      "eliminar_reporte": {
+        "metodo": "DELETE",
+        "url": "http://localhost:8001/reports/550e8400-e29b-41d4-a716-446655440000",
+        "respuesta_exitosa": {
+          "codigo": 204,
+          "body": null
+        }
+      }
+    }
+  },
+  "tipos_reporte": {
+    "1": "Infraestructura/Vía pública",
+    "2": "Inseguridad",
+    "3": "Contaminación",
+    "4": "Servicios públicos",
+    "5": "Otro"
+  },
+  "codigos_estado_http": {
+    "200": "OK - La solicitud fue exitosa",
+    "201": "Created - Recurso creado exitosamente",
+    "204": "No Content - Eliminación exitosa",
+    "400": "Bad Request - Error en la solicitud",
+    "404": "Not Found - Recurso no encontrado",
+    "500": "Internal Server Error - Error en el servidor"
+  }
+}

@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import Navbar           from './components/Navbar'
 import BottomNav        from './components/BottomNav'
 import ProtectedRoute   from './components/ProtectedRoute'
 import FeedPage         from './pages/FeedPage'
@@ -9,11 +10,12 @@ import { ExplorarPage, MapaPage, AlertasPage } from './pages/Placeholders'
 import { useUser } from './context/UserContext'
 
 function Layout({ children }) {
-  const { usuario } = useUser()
+  const { isAuthenticated } = useUser()
   return (
     <>
+
       {children}
-      {usuario && <BottomNav />}
+      {isAuthenticated() && <BottomNav />}
     </>
   )
 }
