@@ -1,0 +1,334 @@
+{
+  "moderation_examples": {
+    "delete_report": {
+      "description": "Eliminar un reporte (requiere token JWT de admin)",
+      "endpoint": "POST /moderation/reports/delete",
+      "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer YOUR_JWT_TOKEN"
+      },
+      "request_body": {
+        "report_id": "550e8400-e29b-41d4-a716-446655440000",
+        "reason": "Contenido violento",
+        "description": "La imagen contiene violencia explícita"
+      },
+      "response_success": {
+        "status": 200,
+        "body": {
+          "status": "success",
+          "message": "Reporte eliminado",
+          "action_id": "action-uuid-123"
+        }
+      },
+      "response_error_401": {
+        "status": 401,
+        "body": {"detail": "Token inválido o expirado"}
+      },
+      "response_error_403": {
+        "status": 403,
+        "body": {"detail": "Permisos insuficientes"}
+      }
+    },
+    "close_account": {
+      "description": "Cerrar cuenta de usuario (requiere token JWT de admin)",
+      "endpoint": "POST /moderation/accounts/close",
+      "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer YOUR_JWT_TOKEN"
+      },
+      "request_body": {
+        "user_id": 42,
+        "reason": "Violación grave de términos",
+        "description": "Comportamiento acosador",
+        "is_permanent": true
+      },
+      "response_success": {
+        "status": 200,
+        "body": {
+          "status": "success",
+          "message": "Cuenta cerrada",
+          "action_id": "action-uuid-456"
+        }
+      }
+    },
+    "ban_user": {
+      "description": "Banear usuario (requiere token JWT de admin)",
+      "endpoint": "POST /moderation/users/ban",
+      "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer YOUR_JWT_TOKEN"
+      },
+      "request_body": {
+        "user_id": 42,
+        "reason": "Spam sistemático",
+        "duration_days": 30,
+        "description": "Múltiples reportes de spam"
+      },
+      "response_success": {
+        "status": 200,
+        "body": {
+          "status": "success",
+          "message": "Usuario baneado por 30 días",
+          "action_id": "action-uuid-789"
+        }
+      }
+    },
+    "warn_user": {
+      "description": "Advertir usuario (requiere token JWT de admin)",
+      "endpoint": "POST /moderation/users/warn",
+      "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer YOUR_JWT_TOKEN"
+      },
+      "request_body": {
+        "user_id": 42,
+        "reason": "Lenguaje inapropiado",
+        "description": "Primera advertencia"
+      },
+      "response_success": {
+        "status": 200,
+        "body": {
+          "status": "success",
+          "message": "Usuario advertido",
+          "action_id": "action-uuid-101"
+        }
+      }
+    },
+    "review_content": {
+      "description": "Revisar contenido reportado (requiere token JWT de admin)",
+      "endpoint": "POST /moderation/content/review",
+      "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer YOUR_JWT_TOKEN"
+      },
+      "request_body": {
+        "report_id": "550e8400-e29b-41d4-a716-446655440000",
+        "action": "approve",
+        "reason": "Contenido válido según políticas",
+        "notes": "Aprobado después de revisión"
+      },
+      "response_success": {
+        "status": 200,
+        "body": {
+          "status": "success",
+          "message": "Decisión registrada",
+          "action_id": "action-uuid-202"
+        }
+      }
+    }
+  }
+}
+      }
+    },
+    
+    "ban_user": {
+      "description": "Banear un usuario temporalmente",
+      "endpoint": "POST /moderation/users/ban",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "request_body_temporal": {
+        "moderator_id": 1,
+        "user_id": 42,
+        "reason": "Lenguaje inapropiado repetido",
+        "duration_days": 7,
+        "description": "Ban de 7 días por contenido ofensivo"
+      },
+      "request_body_permanent": {
+        "moderator_id": 1,
+        "user_id": 99,
+        "reason": "Servidumbre reiterada de términos",
+        "duration_days": null,
+        "description": "Ban permanente"
+      },
+      "response_success": {
+        "status": 200,
+        "body": {
+          "status": "success",
+          "message": "Usuario marcado para ban",
+          "action_id": "action-uuid-789"
+        }
+      }
+    },
+    
+    "warn_user": {
+      "description": "Emitir una advertencia a un usuario",
+      "endpoint": "POST /moderation/users/warn",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "request_body": {
+        "moderator_id": 1,
+        "user_id": 42,
+        "reason": "Primera violación menor de comunidad",
+        "description": "Publicación con spam de enlaces"
+      },
+      "response_success": {
+        "status": 200,
+        "body": {
+          "status": "success",
+          "message": "Advertencia registrada",
+          "action_id": "action-uuid-012"
+        }
+      }
+    },
+    
+    "review_content": {
+      "description": "Revisar y tomar decisión sobre un reporte",
+      "endpoint": "POST /moderation/content/review",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "request_body_approve": {
+        "moderator_id": 1,
+        "report_id": "550e8400-e29b-41d4-a716-446655440000",
+        "action": "approve",
+        "reason": "Contenido reportado es legítimamente violatorio",
+        "notes": "Proceder inmediatamente con eliminación"
+      },
+      "request_body_reject": {
+        "moderator_id": 1,
+        "report_id": "550e8400-e29b-41d4-a716-446655440001",
+        "action": "reject",
+        "reason": "Contenido está dentro de políticas",
+        "notes": "El usuario tiene derecho a expresar esta opinión"
+      },
+      "request_body_needs_info": {
+        "moderator_id": 1,
+        "report_id": "550e8400-e29b-41d4-a716-446655440002",
+        "action": "needs_more_info",
+        "reason": "Necesaria información contextual adicional",
+        "notes": "Contactar con el reportante para detalles"
+      },
+      "response_success": {
+        "status": 200,
+        "body": {
+          "status": "success",
+          "message": "Revisión registrada: approve",
+          "action_id": "action-uuid-345"
+        }
+      }
+    },
+    
+    "health_check": {
+      "description": "Verificar estado de la API",
+      "endpoint": "GET /health",
+      "response": {
+        "status": 200,
+        "body": {
+          "status": "healthy",
+          "service": "Moderation API"
+        }
+      }
+    },
+    
+    "root_info": {
+      "description": "Obtener información sobre la API",
+      "endpoint": "GET /",
+      "response": {
+        "status": 200,
+        "body": {
+          "status": "ok",
+          "service": "VoxPopuli Moderation API",
+          "version": "1.0.0",
+          "description": "API para gestión de acciones de moderación",
+          "endpoints": {
+            "delete_report": "POST /moderation/reports/delete",
+            "close_account": "POST /moderation/accounts/close",
+            "ban_user": "POST /moderation/users/ban",
+            "warn_user": "POST /moderation/users/warn",
+            "review_content": "POST /moderation/content/review"
+          }
+        }
+      }
+    }
+  },
+  
+  "curl_examples": {
+    "delete_report": "curl -X POST http://localhost:8003/moderation/reports/delete -H 'Content-Type: application/json' -d '{\"moderator_id\": 1, \"report_id\": \"550e8400-e29b-41d4-a716-446655440000\", \"reason\": \"Contenido violento\", \"description\": \"Imagen con violencia explícita\"}'",
+    
+    "ban_user": "curl -X POST http://localhost:8003/moderation/users/ban -H 'Content-Type: application/json' -d '{\"moderator_id\": 1, \"user_id\": 42, \"reason\": \"Lenguaje inapropiado\", \"duration_days\": 7}'",
+    
+    "warn_user": "curl -X POST http://localhost:8003/moderation/users/warn -H 'Content-Type: application/json' -d '{\"moderator_id\": 1, \"user_id\": 42, \"reason\": \"Primera advertencia\", \"description\": \"Spam de enlaces\"}'",
+    
+    "close_account": "curl -X POST http://localhost:8003/moderation/accounts/close -H 'Content-Type: application/json' -d '{\"moderator_id\": 1, \"user_id\": 42, \"reason\": \"Violación de términos\", \"is_permanent\": true}'",
+    
+    "review_approve": "curl -X POST http://localhost:8003/moderation/content/review -H 'Content-Type: application/json' -d '{\"moderator_id\": 1, \"report_id\": \"550e8400-e29b-41d4-a716-446655440000\", \"action\": \"approve\", \"reason\": \"Contenido legítimamente violatorio\"}'"
+  },
+  
+  "rabbitmq_events": {
+    "moderation_delete_report": {
+      "queue": "moderation_queue",
+      "event_type": "moderation.delete_report",
+      "payload": {
+        "action_id": "uuid",
+        "event_type": "moderation.delete_report",
+        "moderator_id": 1,
+        "report_id": "550e8400-e29b-41d4-a716-446655440000",
+        "reason": "Contenido violento",
+        "description": "Imagen con violencia explícita",
+        "timestamp": "2026-05-04T10:30:00.000Z"
+      }
+    },
+    
+    "moderation_close_account": {
+      "queue": "moderation_queue",
+      "event_type": "moderation.close_account",
+      "payload": {
+        "action_id": "uuid",
+        "event_type": "moderation.close_account",
+        "moderator_id": 1,
+        "user_id": 42,
+        "reason": "Violación de términos",
+        "description": "Comportamiento acosador",
+        "is_permanent": true,
+        "timestamp": "2026-05-04T10:30:00.000Z"
+      }
+    },
+    
+    "moderation_ban_user": {
+      "queue": "moderation_queue",
+      "event_type": "moderation.ban_user",
+      "payload": {
+        "action_id": "uuid",
+        "event_type": "moderation.ban_user",
+        "moderator_id": 1,
+        "user_id": 42,
+        "reason": "Lenguaje inapropiado",
+        "duration_days": 7,
+        "is_permanent": false,
+        "description": "Ban temporal por contenido ofensivo",
+        "timestamp": "2026-05-04T10:30:00.000Z"
+      }
+    },
+    
+    "moderation_warn_user": {
+      "queue": "moderation_queue",
+      "event_type": "moderation.warn_user",
+      "payload": {
+        "action_id": "uuid",
+        "event_type": "moderation.warn_user",
+        "moderator_id": 1,
+        "user_id": 42,
+        "reason": "Primera advertencia",
+        "description": "Spam de enlaces",
+        "timestamp": "2026-05-04T10:30:00.000Z"
+      }
+    },
+    
+    "moderation_review_content": {
+      "queue": "moderation_queue",
+      "event_type": "moderation.review_content",
+      "payload": {
+        "action_id": "uuid",
+        "event_type": "moderation.review_content",
+        "moderator_id": 1,
+        "report_id": "550e8400-e29b-41d4-a716-446655440000",
+        "review_action": "approve",
+        "reason": "Contenido legítimamente violatorio",
+        "notes": "Proceder inmediatamente",
+        "timestamp": "2026-05-04T10:30:00.000Z"
+      }
+    }
+  }
+}

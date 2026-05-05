@@ -1,3 +1,5 @@
+import CarCrashIcon from '@mui/icons-material/CarCrash';
+
 /**
  * Mock data que espeja EXACTAMENTE los modelos del backend real.
  * Campos: los del README de tu compañero.
@@ -12,13 +14,13 @@
  * Cuando lo confirmen, este objeto es la fuente de verdad.
  */
 export const TIPO_REPORTE = {
-  1: { label: 'Bache',           emoji: '🕳️', categoria: 'bache'     },
-  2: { label: 'Basura',          emoji: '🗑️', categoria: 'basura'    },
-  3: { label: 'Alumbrado',       emoji: '💡', categoria: 'alumbrado' },
-  4: { label: 'Agua',            emoji: '🚰', categoria: 'agua'      },
-  5: { label: 'Tráfico',         emoji: '🚦', categoria: 'trafico'   },
-  6: { label: 'Servicio Público',emoji: '🏛️', categoria: 'servicio'  },
-  7: { label: 'Otro',            emoji: '📋', categoria: 'otro'      },
+  1: { label: 'Bache',            icon: 'Construction',       categoria: 'bache'     },
+  2: { label: 'Basura',           icon: 'DeleteSweep',        categoria: 'basura'    },
+  3: { label: 'Alumbrado',        icon: 'Lightbulb',          categoria: 'alumbrado' },
+  4: { label: 'Agua',             icon: 'Opacity',            categoria: 'agua'      },
+  5: { label: 'Tráfico',          icon: 'TrafficRounded',     categoria: 'trafico'   },
+  6: { label: 'Servicio Público', icon: 'ApartmentRounded',   categoria: 'servicio'  },
+  7: { label: 'Otro',             icon: 'MoreHoriz',          categoria: 'otro'      },
 }
 
 /* ─── Mapeo estado ──────────────────────────────────────────────────
@@ -62,16 +64,16 @@ export const ESTADO_CONFIG = {
 
 /* ─── Categorías del carrusel ───────────────────────────────────── */
 export const CATEGORIAS = [
-  { id: 'todos',    label: 'Todos',           emoji: '🏙️', tipo: null },
-  { id: 'bache',    label: 'Baches',          emoji: '🕳️', tipo: 1   },
-  { id: 'basura',   label: 'Basura',          emoji: '🗑️', tipo: 2   },
-  { id: 'alumbrado', label: 'Alumbrado',      emoji: '💡', tipo: 3   },
-  { id: 'agua',     label: 'Agua',            emoji: '🚰', tipo: 4   },
-  { id: 'trafico',  label: 'Tráfico',         emoji: '🚦', tipo: 5   },
-  { id: 'servicio', label: 'Servicio',        emoji: '🏛️', tipo: 6   },
-  { id: 'otro',     label: 'Otro',            emoji: '📋', tipo: 7   },
-  { id: 'importante', label: 'Importantes',   emoji: '⚠️', tipo: null },
-  { id: 'reciente', label: 'Recientes',       emoji: '🕐', tipo: null },
+  { id: 'todos',        label: 'Todos',         icon: 'Apartment',      tipo: null },
+  { id: 'bache',        label: 'Baches',        icon: 'Construction',   tipo: 1   },
+  { id: 'basura',       label: 'Basura',        icon: 'DeleteSweep',    tipo: 2   },
+  { id: 'alumbrado',    label: 'Alumbrado',     icon: 'Lightbulb',      tipo: 3   },
+  { id: 'agua',         label: 'Agua',          icon: 'Opacity',        tipo: 4   },
+  { id: 'trafico',      label: 'Tráfico',       icon: 'TrafficRounded', tipo: 5   },
+  { id: 'servicio',     label: 'Servicio',      icon: 'ApartmentRounded',tipo: 6  },
+  { id: 'otro',         label: 'Otro',          icon: 'MoreHoriz',      tipo: 7   },
+  { id: 'importante',   label: 'Importantes',   icon: 'WarningRounded',  tipo: null},
+  { id: 'reciente',     label: 'Recientes',     icon: 'AccessTime',     tipo: null},
 ]
 
 /* ─── Mock de reportes (estructura = modelo MongoDB real) ────────── */

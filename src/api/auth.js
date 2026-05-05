@@ -9,22 +9,29 @@ import { usersClient } from './client'
  * Login - Autentica usuario con email y contraseña
  * @param {string} email - Email del usuario
  * @param {string} contraseña - Contraseña del usuario
- * @returns {Promise<{access_token, token_type, user_id, email}>}
+ * @returns {Promise<{access_token, token_type, user_id, email, is_admin}>}
  */
 export const login = async (email, contraseña) => {
   const response = await usersClient.post('/users/login', {
     email,
     contraseña,
   })
-  const { access_token, token_type, user_id, email: userEmail } = response.data
+  const { access_token, token_type, user_id, email: userEmail, is_admin } = response.data
   
-  // Guardar token en localStorage
+  console.debug('[Auth.login] Response del backend:', {
+    user_id,
+    email: userEmail,
+    is_admin,
+    is_admin_type: typeof is_admin,
+  })
+  
+  // Guardar token en localStorage (esto lo hace UserContext también, pero lo dejamos para compatibilidad)
   localStorage.setItem('access_token', access_token)
   localStorage.setItem('token_type', token_type)
   localStorage.setItem('user_id', user_id)
   localStorage.setItem('user_email', userEmail)
   
-  return { access_token, token_type, user_id, email: userEmail }
+  return { access_token, token_type, user_id, email: userEmail, is_admin }
 }
 
 /**

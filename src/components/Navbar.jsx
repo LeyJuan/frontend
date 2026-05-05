@@ -1,13 +1,14 @@
 import { useNavigate } from 'react-router-dom'
 import { useUser } from '../context/UserContext'
 import { logout } from '../api/auth'
+import NotificationBadge from './NotificationBadge'
 
 /**
  * Componente Navbar/Header
  * Muestra información del usuario y opción de logout
  */
 export default function Navbar() {
-  const { usuario, isAuthenticated } = useUser()
+  const { usuario, isAuthenticated, isAdmin } = useUser()
   const navigate = useNavigate()
 
   if (!isAuthenticated()) {
@@ -33,6 +34,27 @@ export default function Navbar() {
           </p>
           <h1 className="text-lg font-black text-gray-900">Voz Ciudadana</h1>
         </button>
+
+        {/* Notifications Icon */}
+        <button
+          onClick={() => navigate('/alertas')}
+          className="relative p-2 hover:bg-gray-100 rounded-lg transition-colors"
+          title="Notificaciones"
+        >
+          <span className="text-2xl">🔔</span>
+          <NotificationBadge className="icon-badge" />
+        </button>
+
+        {/* Admin Panel Icon - Solo visible para admins */}
+        {isAdmin() && (
+          <button
+            onClick={() => navigate('/admin')}
+            className="relative p-2 hover:bg-purple-100 rounded-lg transition-colors"
+            title="Panel de Administración"
+          >
+            <span className="text-2xl">🛡️</span>
+          </button>
+        )}
 
         {/* User Info & Logout */}
         {/* {usuario && (

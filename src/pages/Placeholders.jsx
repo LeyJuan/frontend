@@ -3,6 +3,7 @@ import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet'
 import L from 'leaflet'
 import { getReportes } from '../api/reportes'
 import { TIPO_REPORTE, resolveEstado, ESTADO_CONFIG } from '../mock/data'
+import NotificationList from '../components/NotificationList'
 import 'leaflet/dist/leaflet.css'
 
 // Fix para los íconos de Leaflet con Vite
@@ -155,14 +156,19 @@ export function ExplorarPage() {
       </div>
     </div>
   ) }
-export function AlertasPage()  { return (
+export function AlertasPage()  { 
+  // Para debug, agrega ?debug=1 a la URL para ver información detallada
+  const params = new URLSearchParams(window.location.search)
+  const debugMode = params.get('debug') === '1'
+  
+  return (
     <div className="flex flex-col min-h-screen bg-white pb-28">
       <header className="bg-red-600 px-4 pt-4 pb-4">
-        <h1 className="text-[18px] font-black text-white">Alertas</h1>
+        <h1 className="text-[18px] font-black text-white">Notificaciones</h1>
+        {debugMode && <p className="text-red-200 text-xs mt-1">🔍 Modo Debug Activado</p>}
       </header>
-      <div className="flex flex-col items-center justify-center flex-1 text-gray-400 gap-3">
-        <p className="text-5xl">🔔</p>
-        <p className="text-lg font-bold text-gray-600">Próximamente</p>
+      <div className="px-4 py-4">
+        <NotificationList debug={debugMode} />
       </div>
     </div>
   )

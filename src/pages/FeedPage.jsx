@@ -2,8 +2,10 @@ import { useState } from 'react'
 import { Search, Bell, User, RefreshCw } from 'lucide-react'
 import CategoryCarousel from '../components/CategoryCarousel'
 import ReportCard       from '../components/ReportCard'
+import NotificationBadge from '../components/NotificationBadge'
 import { useFeed }      from '../hooks/useFeed'
 import { useNavigate }  from 'react-router-dom'
+import { useUser }      from '../context/UserContext'
 
 const TABS = [
   { id: 'todos',       label: 'Todos'       },
@@ -23,6 +25,7 @@ export default function FeedPage() {
   const [catActiva, setCatActiva] = useState('todos')
   const [tabActivo, setTabActivo] = useState('todos')
   const navigate = useNavigate()
+  const { isAdmin } = useUser()
 
   const { reportes, cargando, error, recargar } = useFeed({
     categoriaId: catActiva,
@@ -56,10 +59,24 @@ export default function FeedPage() {
             <button className="w-9 h-9 rounded-xl bg-red-700/60 flex items-center justify-center text-white active:scale-90 transition-all">
               <Search size={17} strokeWidth={2} />
             </button>
-            <button className="w-9 h-9 rounded-xl bg-red-700/60 flex items-center justify-center text-white relative active:scale-90 transition-all">
+            <button 
+              onClick={() => navigate('/alertas')}
+              className="w-9 h-9 rounded-xl bg-red-700/60 flex items-center justify-center text-white relative active:scale-90 transition-all"
+              title="Notificaciones"
+            >
               <Bell size={17} strokeWidth={2} />
-              <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-white rounded-full border-2 border-red-600" />
+              <NotificationBadge className="icon-badge" />
             </button>
+            {/* Ícono de panel admin - solo para admins */}
+            {isAdmin() && (
+              <button
+                onClick={() => navigate('/admin')}
+                className="w-9 h-9 rounded-xl bg-purple-600/80 flex items-center justify-center text-white active:scale-90 transition-all"
+                title="Panel de Administración"
+              >
+                <span className="text-lg">🛡️</span>
+              </button>
+            )}
           </div>
         </div>
       </header>

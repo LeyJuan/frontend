@@ -3,7 +3,7 @@
     "usuarios": {
       "crear_usuario": {
         "metodo": "POST",
-        "url": "http://api/users/",
+        "url": "http://localhost:8000/users/",
         "solicitud": {
           "Content-Type": "application/json",
           "body": {
@@ -33,7 +33,7 @@
       },
       "obtener_usuario_por_id": {
         "metodo": "GET",
-        "url": "http://api/users/1",
+        "url": "http://localhost:8000/users/1",
         "respuesta": {
           "codigo": 200,
           "body": {
@@ -52,7 +52,7 @@
       },
       "obtener_usuario_por_email": {
         "metodo": "GET",
-        "url": "http://api/users/email/juan.perez@example.com",
+        "url": "http://localhost:8000/users/email/juan.perez@example.com",
         "respuesta": {
           "codigo": 200,
           "body": {
@@ -71,7 +71,7 @@
       },
       "listar_todos_usuarios": {
         "metodo": "GET",
-        "url": "http://api/users/",
+        "url": "http://localhost:8000/users/",
         "respuesta": {
           "codigo": 200,
           "body": [
@@ -92,7 +92,7 @@
       },
       "actualizar_usuario": {
         "metodo": "PUT",
-        "url": "http://api/users/1",
+        "url": "http://localhost:8000/users/1",
         "solicitud": {
           "Content-Type": "application/json",
           "body": {
@@ -120,7 +120,7 @@
       },
       "eliminar_usuario": {
         "metodo": "DELETE",
-        "url": "http://api/users/1",
+        "url": "http://localhost:8000/users/1",
         "respuesta_exitosa": {
           "codigo": 204,
           "body": null

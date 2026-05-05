@@ -3,16 +3,21 @@ import { useNavigate } from 'react-router-dom'
 import { crearReporte } from '../api/reportes'
 import { useUser } from '../context/UserContext'
 import MapaPicker from '../components/MapaPicker'
+import { getIcon } from '../utils/iconMap'
+
+//import CameraAltIcon from '@mui/icons-material/CameraAlt';
 
 const TIPOS = [
-  { value: 1, label: '🕳️ Bache' },
-  { value: 2, label: '🗑️ Basura' },
-  { value: 3, label: '💡 Alumbrado' },
-  { value: 4, label: '🚰 Agua' },
-  { value: 5, label: '🚦 Tráfico' },
-  { value: 6, label: '🏛️ Servicio Público' },
-  { value: 7, label: '📋 Otro' },
+  { value: 1, label: 'Bache',             icon: 'Construction' },
+  { value: 2, label: 'Basura',            icon: 'Delete' },
+  { value: 3, label: 'Alumbrado',         icon: 'LightbulbOutlined' },
+  { value: 4, label: 'Agua',              icon: 'Water' },
+  { value: 5, label: 'Tráfico',           icon: 'TrafficOutlined' },
+  { value: 6, label: 'Servicio Público',  icon: 'AccountBalance' },
+  { value: 7, label: 'Otro',              icon: 'HelpOutline' },
 ]
+
+
 
 export default function NuevoReportePage() {
   const { usuario } = useUser()
@@ -68,6 +73,8 @@ export default function NuevoReportePage() {
     }
   }
 
+  const CamIcon = getIcon('CameraAlt')
+
   return (
     <div className="flex flex-col min-h-screen bg-white pb-28">
       <header className="bg-red-600 px-4 pt-4 pb-4 sticky top-0 z-40 flex items-center gap-3">
@@ -110,7 +117,11 @@ export default function NuevoReportePage() {
           ) : (
             <button onClick={() => inputFotoRef.current?.click()}
               className="w-full h-32 border-2 border-dashed border-gray-200 rounded-xl flex flex-col items-center justify-center gap-2 text-gray-400 active:bg-gray-50 transition-all">
-              <span className="text-3xl">📷</span>
+                <CamIcon 
+                sx={{
+                  fontSize: 48,
+                }}
+                />
               <span className="text-xs font-semibold">Toca para agregar una foto</span>
             </button>
           )}

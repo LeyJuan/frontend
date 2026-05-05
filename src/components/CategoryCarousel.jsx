@@ -1,5 +1,8 @@
 import { useRef } from 'react'
 import { CATEGORIAS } from '../mock/data'
+import { getIcon } from '../utils/iconMap'
+
+
 
 export default function CategoryCarousel({ activa = 'todos', onChange }) {
   const trackRef = useRef(null)
@@ -33,6 +36,8 @@ export default function CategoryCarousel({ activa = 'todos', onChange }) {
       >
         {CATEGORIAS.map((cat) => {
           const isActive = activa === cat.id
+          const Icon = getIcon(cat.icon);
+
           return (
             <div
               key={cat.id}
@@ -46,14 +51,12 @@ export default function CategoryCarousel({ activa = 'todos', onChange }) {
                   : 'bg-gray-200'
               }`}>
                 <div className="w-14 h-14 rounded-full bg-white border-2 border-white flex items-center justify-center">
-                  <span className="text-[24px]" style={{
-                    filter: isActive ? 'drop-shadow(0 2px 4px rgba(0,0,0,0.15))' : 'none',
-                    transform: isActive ? 'scale(1.1)' : 'scale(1)',
-                    transition: 'transform .2s',
-                    display: 'block',
-                  }}>
-                    {cat.emoji}
-                  </span>
+                  <Icon
+                    sx={{
+                      fontSize:28, color: isActive ? '#dc2626' : '#9ca3af', transform: isActive ? 'scale(1.2)' : 'scale(1)',
+                      transition: 'transform .2s, color .2s',
+                    }}
+                  />
                 </div>
               </div>
               {/* Etiqueta */}

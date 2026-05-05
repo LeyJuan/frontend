@@ -1,6 +1,7 @@
 import { MessageCircle, Share2, MapPin, ThumbsUp } from 'lucide-react'
 import { ESTADO_CONFIG, INSTITUCIONES } from '../mock/data'
 import { DOMAIN, R_PORT } from '../../globalVars'
+import { getIcon } from '../utils/iconMap'
 
 
 function timeAgo(iso) {
@@ -44,9 +45,12 @@ export default function ReportCard({ reporte }) {
   const tipo   = reporte._tipo  ?? { emoji: '📋', label: 'Reporte' }
   const autor  = reporte._autor ?? {}
 
+  const Icon = getIcon(tipo.icon);
+
   const instituciones = (reporte.instituciones_ids ?? [])
     .map(id => INSTITUCIONES.find(i => i.id === id))
     .filter(Boolean)
+
 
   return (
     <article className="bg-white rounded-2xl border border-gray-100 overflow-hidden shadow-sm">
@@ -84,11 +88,19 @@ export default function ReportCard({ reporte }) {
     style={{ display: reporte.image_url ? 'none' : 'flex' }}
     className="items-center justify-center w-full h-full"
   >
-    {tipo.emoji}
+    <Icon 
+      sx={{
+        fontSize:192,
+      }}
+    />
   </span>
   <div className="absolute bottom-0 left-0 right-0 h-12 bg-gradient-to-t from-white to-transparent" />
   <span className="absolute top-2.5 left-3 text-[11px] font-semibold bg-white/80 backdrop-blur-sm px-2.5 py-1 rounded-full shadow-sm border border-white/50">
-    {tipo.emoji} {tipo.label}
+    <Icon 
+      sx={{
+        fontSize: '1.5em',
+      }}    
+    /> {tipo.label}
   </span>
 </div>
 
