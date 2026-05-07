@@ -5,6 +5,10 @@ import L from 'leaflet'
 import { Navigation } from 'lucide-react'
 import 'leaflet/dist/leaflet.css'
 
+import { Geolocation } from '@capacitor/geolocation'
+import { Capacitor } from '@capacitor/core'
+
+
 delete L.Icon.Default.prototype._getIconUrl
 L.Icon.Default.mergeOptions({
   iconRetinaUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png',
@@ -81,30 +85,50 @@ export default function MapaPicker({ value, onChange, onDireccion }) {
     if (dir && onDireccion) onDireccion(dir)
   }
 
-  const handleGeolocalización = () => {
-    if (!navigator.geolocation) {
-      alert('Tu navegador no soporta geolocalización')
-      return
+
+const handleGeolocalización = async () => {
+  setLocalizando(true)
+
+  try {
+    let latitude, longitude
+
+    if (Capacitor.isNativePlatform()) {
+      const permiso = await Geolocation.requestPermissions()
+      if (permiso.location !== 'granted') {
+        alert('Permiso denegado. Por favor, habilita la ubicación en la configuración.')
+        setLocalizando(false)
+        return
+      }
+      const pos = await Geolocation.getCurrentPosition({ enableHighAccuracy: true, timeout: 10000 })
+      latitude = pos.coords.latitude
+      longitude = pos.coords.longitude
+    } else {
+      if (!navigator.geolocation) {
+        alert('Tu navegador no soporta geolocalización')
+        setLocalizando(false)
+        return
+      }
+      const pos = await new Promise((resolve, reject) =>
+        navigator.geolocation.getCurrentPosition(resolve, reject, {
+          timeout: 10000,
+          enableHighAccuracy: true,
+        })
+      )
+      latitude = pos.coords.latitude
+      longitude = pos.coords.longitude
     }
 
-    setLocalizando(true)
-    navigator.geolocation.getCurrentPosition(
-      async (position) => {
-        const { latitude, longitude } = position.coords
-        handleClick({ lat: latitude, lng: longitude })
-        setLocalizando(false)
-      },
-      (error) => {
-        setLocalizando(false)
-        const mensajes = {
-          1: 'Permiso denegado. Por favor, habilita la ubicación en tu navegador.',
-          2: 'No se pudo obtener tu ubicación. Intenta de nuevo.',
-          3: 'La solicitud de ubicación tardó demasiado.',
-        }
-        alert(mensajes[error.code] || 'Error al obtener tu ubicación')
-      },
-      { timeout: 10000, enableHighAccuracy: true }
-    )
+      await handleClick({ lat: latitude, lng: longitude })
+    } catch (error) {
+      const mensajes = {
+        1: 'Permiso denegado. Por favor, habilita la ubicación en tu navegador.',
+        2: 'No se pudo obtener tu ubicación. Intenta de nuevo.',
+        3: 'La solicitud de ubicación tardó demasiado.',
+      }
+      alert(mensajes[error.code] || 'Error al obtener tu ubicación')
+    } finally {
+      setLocalizando(false)
+    }
   }
 
   return (

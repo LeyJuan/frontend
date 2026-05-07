@@ -72,7 +72,7 @@ export default function ReportCard({ reporte }) {
       </div>
 
       {/* ── Imagen / placeholder ── */}
-<div className="w-full h-40 bg-gray-50 flex items-center justify-center text-5xl relative overflow-hidden">
+<div className="w-full h-96 bg-gray-50 flex items-center justify-center text-5xl relative overflow-hidden">
   {reporte.image_url ? (
     <img
       src={`${DOMAIN}:${R_PORT}${reporte.image_url}`}

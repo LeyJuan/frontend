@@ -9,7 +9,7 @@ const LINKS = [
 
 export default function BottomNav() {
   return (
-    <nav className="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[430px] bg-red-600 border-t border-red-700 flex items-stretch px-4 pb-4 pt-2 z-50">
+    <nav className="fixed bottom-0 left-1/2 -translate-x-1/2 w-full bg-red-600 border-t border-red-700 flex items-stretch px-4 pb-4 pt-2 z-50">
       {LINKS.map(({ to, label, Icon }) => (
         <NavLink
           key={to}

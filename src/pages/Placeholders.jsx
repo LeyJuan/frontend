@@ -6,6 +6,9 @@ import { TIPO_REPORTE, resolveEstado, ESTADO_CONFIG } from '../mock/data'
 import NotificationList from '../components/NotificationList'
 import 'leaflet/dist/leaflet.css'
 
+import { Geolocation } from '@capacitor/geolocation'
+import { Capacitor } from '@capacitor/core'
+
 // Fix para los íconos de Leaflet con Vite
 delete L.Icon.Default.prototype._getIconUrl
 L.Icon.Default.mergeOptions({
@@ -38,14 +41,49 @@ function crearIcono(estado) {
   })
 }
 
+
 function ControlUbicacion() {
   const map = useMap()
-  const centrar = () => {
-    navigator.geolocation.getCurrentPosition(
-      ({ coords }) => map.flyTo([coords.latitude, coords.longitude], 16),
-      () => alert('No se pudo obtener tu ubicación')
-    )
+
+  const centrar = async () => {
+  try {
+    let latitude, longitude
+
+    if (Capacitor.isNativePlatform()) {
+      const permiso = await Geolocation.requestPermissions()
+      if (permiso.location !== 'granted') {
+        alert('Permiso denegado. Habilita la ubicación en la configuración.')
+        return
+      }
+      const pos = await Geolocation.getCurrentPosition({ enableHighAccuracy: true })
+      latitude = pos.coords.latitude
+      longitude = pos.coords.longitude
+    } else {
+      if (!navigator.geolocation) {
+        alert('Tu navegador no soporta geolocalización')
+        return
+      }
+      const pos = await new Promise((resolve, reject) =>
+        navigator.geolocation.getCurrentPosition(resolve, reject, {
+          enableHighAccuracy: true,
+          timeout: 10000,
+        })
+      )
+      latitude = pos.coords.latitude
+      longitude = pos.coords.longitude
+    }
+
+    map.flyTo([latitude, longitude], 16)
+  } catch (error) {
+    const mensajes = {
+      1: 'Permiso denegado. Habilita la ubicación en tu navegador.',
+      2: 'No se pudo obtener tu ubicación.',
+      3: 'La solicitud tardó demasiado.',
+    }
+    alert(mensajes[error.code] || `Error: ${error.message}`)
   }
+}
+
   return (
     <button
       onClick={centrar}
@@ -87,7 +125,7 @@ export function MapaPage() {
         ))}
       </div>
 
-      <div className="relative" style={{ height: 'calc(100vh - 190px)', width: '100%' }}>
+      <div className="relative z-0" style={{ height: 'calc(100vh - 190px)', width: '100%' }}>
         <MapContainer
           center={CENTRO_TUXTLA}
           zoom={13}
