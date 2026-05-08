@@ -4,10 +4,12 @@ import { MapContainer, TileLayer, Marker } from 'react-leaflet'
 import L from 'leaflet'
 import { Navigation } from 'lucide-react'
 import 'leaflet/dist/leaflet.css'
+import { getIcon } from '../utils/iconMap'
 
 import { Geolocation } from '@capacitor/geolocation'
 import { Capacitor } from '@capacitor/core'
 
+const Icon = getIcon('LocationPin')
 
 delete L.Icon.Default.prototype._getIconUrl
 L.Icon.Default.mergeOptions({
@@ -154,8 +156,9 @@ const handleGeolocalización = async () => {
           )}
         </div>
       </div>
+      
 
-      <div style={{ height: 380, borderRadius: 12, overflow: 'hidden', border: '1px solid #e5e7eb', boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }}>
+      <div style={{ zIndex:0, height: 380, borderRadius: 12, overflow: 'hidden', border: '1px solid #e5e7eb', boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }}>
         <MapContainer center={centro} zoom={14}
           style={{ height: '100%', width: '100%' }} zoomControl={false}>
           <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
@@ -166,12 +169,15 @@ const handleGeolocalización = async () => {
       </div>
 
       {posicion ? (
-        <p className="text-xs text-gray-400">
-          📍 {posicion[0].toFixed(5)}, {posicion[1].toFixed(5)}
-        </p>
+        <Icon
+        sx={{
+          fonSize:12, color:'#dc2626'
+        }}
+        />
       ) : (
         <p className="text-xs text-gray-400">Toca el mapa para marcar la ubicación, o usa el botón de geolocalización</p>
-      )}
+      )
+      }
     </div>
   )
 }

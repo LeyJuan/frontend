@@ -5,6 +5,7 @@ import { getReportes } from '../api/reportes'
 import { TIPO_REPORTE, resolveEstado, ESTADO_CONFIG } from '../mock/data'
 import NotificationList from '../components/NotificationList'
 import 'leaflet/dist/leaflet.css'
+import { getIcon } from '../utils/iconMap'
 
 import { Geolocation } from '@capacitor/geolocation'
 import { Capacitor } from '@capacitor/core'
@@ -17,6 +18,8 @@ L.Icon.Default.mergeOptions({
   shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
 })
 
+
+const Icon = getIcon('LocationPin')
 const CENTRO_TUXTLA = [16.7516, -93.1152]
 
 // Crea un ícono de color según el estado del reporte
@@ -90,7 +93,9 @@ function ControlUbicacion() {
       className="absolute bottom-24 right-4 z-[1000] w-11 h-11 bg-white rounded-xl shadow-lg flex items-center justify-center text-xl border border-gray-200 active:scale-90 transition-all"
       title="Mi ubicación"
     >
-      📍
+      <Icon 
+      sx={{fontSize:32, color:'#dc2626'}}
+      />
     </button>
   )
 }
