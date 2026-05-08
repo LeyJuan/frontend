@@ -6,7 +6,9 @@ import axios from 'axios'
  * No authentication required
  */
 
-const ANALYTICS_URL = '' // Vite proxy will redirect to port 8004
+const isProd = import.meta.env.PROD
+const ANALYTICS_URL = isProd ? 'https://metricas.vozciudadana.duckdns.org' : ''
+
 
 const analyticsClient = axios.create({
   baseURL: ANALYTICS_URL,

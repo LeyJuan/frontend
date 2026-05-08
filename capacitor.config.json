@@ -1,5 +1,8 @@
 {
   "appId": "org.hokzaap.vozciudadana",
   "appName": "Voz Ciudadana",
-  "webDir": "dist"
+  "webDir": "dist",
+  "server": {
+    "androidScheme": "https"
+  }
 }

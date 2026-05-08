@@ -1,15 +1,12 @@
 import axios from 'axios'
 
-/**
- * Voz Ciudadana — tres microservicios FastAPI:
- *   usersClient        → Puerto 65000  (Usuarios  - MySQL)
- *   reportsClient      → Puerto 65001  (Reportes  - MongoDB)
- *   notificationsClient → Puerto 8002   (Notificaciones - MongoDB)
- */
+// En producción (Android/Capacitor), el proxy de Vite no existe.
+// Usamos las URLs reales directamente.
+const isProd = import.meta.env.PROD
 
-const USERS_URL        = ''   // el proxy de Vite redirige /users → puerto 65000
-const REPORTS_URL      = ''   // el proxy de Vite redirige /reports → puerto 65001
-const NOTIFICATIONS_URL = ''  // el proxy de Vite redirige /notifications → puerto 8002
+const USERS_URL         = isProd ? 'https://usuarios.vozciudadana.duckdns.org'      : ''
+const REPORTS_URL       = isProd ? 'https://reportes.vozciudadana.duckdns.org'       : ''
+const NOTIFICATIONS_URL = isProd ? 'https://notificaciones.vozciudadana.duckdns.org' : ''
 
 function makeClient(baseURL) {
   const instance = axios.create({
@@ -35,6 +32,6 @@ function makeClient(baseURL) {
   return instance
 }
 
-export const usersClient        = makeClient(USERS_URL)
-export const reportsClient      = makeClient(REPORTS_URL)
+export const usersClient         = makeClient(USERS_URL)
+export const reportsClient       = makeClient(REPORTS_URL)
 export const notificationsClient = makeClient(NOTIFICATIONS_URL)

@@ -6,7 +6,8 @@ import axios from 'axios'
  * Requires JWT token with admin user (is_admin=true)
  */
 
-const MODERATION_URL = '' // Vite proxy will redirect to port 8003
+const isProd = import.meta.env.PROD
+const MODERATION_URL = isProd ? 'https://admin.vozciudadana.duckdns.org' : ''
 
 function makeModerationClient(baseURL) {
   const instance = axios.create({
