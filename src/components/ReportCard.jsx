@@ -75,7 +75,7 @@ export default function ReportCard({ reporte }) {
 <div className="w-full h-96 bg-gray-50 flex items-center justify-center text-5xl relative overflow-hidden">
   {reporte.image_url ? (
     <img
-      src={`${DOMAIN}:${R_PORT}${reporte.image_url}`}
+      src={`${R_PORT}${reporte.image_url}`}
       alt={tipo.label}
       className="w-full h-full object-cover"
       onError={(e) => {
