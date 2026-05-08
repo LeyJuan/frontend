@@ -5,25 +5,18 @@ import { configDotenv } from 'dotenv';
 configDotenv();
 
 // Usar valores por defecto si no están definidos
-const DOMAIN = (process.env.VITE_DOMAIN || 'http://localhost').trim().replace(/['"]+/g, '')
-const U_PORT = process.env.VITE_U_PORT || 8000
-const R_PORT = process.env.VITE_R_PORT || 8001
-const N_PORT = process.env.VITE_N_PORT || 8002
-const MOD_PORT = process.env.VITE_MOD_PORT || 8003
-const ANALYTICS_PORT = process.env.VITE_ANALYTICS_PORT || 8004
-
-const USERS_TARGET = `${DOMAIN}:${U_PORT}`
-const REPORTS_TARGET = `${DOMAIN}:${R_PORT}`
-const NOTIFICATIONS_TARGET = `${DOMAIN}:${N_PORT}`
-const MODERATION_TARGET = `${DOMAIN}:${MOD_PORT}`
-const ANALYTICS_TARGET = `${DOMAIN}:${ANALYTICS_PORT}`
+const U_URI = process.env.VITE_U_PORT || "https://usuarios.vozciudadana.duckdns.org"
+const R_URI = process.env.VITE_R_PORT || "https://reportes.vozciudadana.duckdns.org"
+const N_URI = process.env.VITE_N_PORT || "https://notificaciones.vozciudadana.duckdns.org"
+const MOD_URI = process.env.VITE_MOD_PORT || "https://admin.vozciudadana.duckdns.org"
+const ANALYTICS_URI = process.env.VITE_ANALYTICS_PORT || "https://metricas.vozciudadana.duckdns.org"
 
 console.log('📡 Vite Proxy Configuration:')
-console.log(`  /users         → ${USERS_TARGET}`)
-console.log(`  /reports       → ${REPORTS_TARGET}`)
-console.log(`  /notifications → ${NOTIFICATIONS_TARGET}`)
-console.log(`  /moderation    → ${MODERATION_TARGET}`)
-console.log(`  /metrics       → ${ANALYTICS_TARGET}`)
+console.log(`  /users         → ${U_URI}`)
+console.log(`  /reports       → ${R_URI}`)
+console.log(`  /notifications → ${N_URI}`)
+console.log(`  /moderation    → ${MOD_URI}`)
+console.log(`  /metrics       → ${ANALYTICS_URI}`)
 
 export default defineConfig({
   plugins: [react()],
@@ -31,23 +24,23 @@ export default defineConfig({
     port: 5173,
     proxy: {
       '/users': {
-        target: USERS_TARGET,
+        target: U_URI,
         changeOrigin: true,
       },
       '/reports': {
-        target: REPORTS_TARGET,
+        target: R_URI,
         changeOrigin: true,
       },
       '/notifications': {
-        target: NOTIFICATIONS_TARGET,
+        target: N_URI,
         changeOrigin: true,
       },
       '/moderation': {
-        target: MODERATION_TARGET,
+        target: MOD_URI,
         changeOrigin: true,
       },
       '/metrics': {
-        target: ANALYTICS_TARGET,
+        target: ANALYTICS_URI,
         changeOrigin: true,
       },
     },
