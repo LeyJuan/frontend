@@ -5,7 +5,7 @@ import { getIcon } from '../utils/iconMap'
 
 
 function timeAgo(iso) {
-  const diff = (Date.now() - new Date(iso)) / 1000
+  const diff = (Date.now() - new Date(iso+'Z')) / 1000
   if (diff < 3600)  return `hace ${Math.floor(diff / 60)} min`
   if (diff < 86400) return `hace ${Math.floor(diff / 3600)} hr`
   return `hace ${Math.floor(diff / 86400)} días`
